@@ -65,6 +65,9 @@ public class LoginActivity extends AppCompatActivity implements Response {
             return;
         }
         Toast.makeText(getBaseContext(), "Login Successful!" , Toast.LENGTH_SHORT).show();
+
+        Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+        LoginActivity.this.startActivity(myIntent);
     }
 
     private Boolean checkLoginData(String email, String password) {
@@ -78,8 +81,10 @@ public class LoginActivity extends AppCompatActivity implements Response {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        while (result == null) {}
         if (result == "SUCCESS")
             return true;
+        result = null;
         return false;
     }
 
