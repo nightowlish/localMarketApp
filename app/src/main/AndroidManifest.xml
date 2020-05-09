@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="local.market.app">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".data.AddProductActivity"></activity>
+        <activity android:name=".data.OrderActivity" />
+        <activity android:name=".data.ShoppingCartActivity" />
+        <activity android:name=".data.CategoryActivity" />
+        <activity android:name=".data.SignupActivity" />
+        <activity android:name=".data.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".data.SellActivity" />
+        <activity android:name=".data.ShopActivity" />
+        <activity android:name=".data.MainActivity" />
+    </application>
+
+</manifest>
