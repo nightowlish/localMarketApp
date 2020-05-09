@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements Response {
         }
         Toast.makeText(getBaseContext(), "Login Successful!" , Toast.LENGTH_SHORT).show();
 
+        new Data(e);
         Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
         LoginActivity.this.startActivity(myIntent);
     }
