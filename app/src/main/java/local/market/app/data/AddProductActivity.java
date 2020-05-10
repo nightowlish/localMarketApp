@@ -96,5 +96,6 @@ public class AddProductActivity extends AppCompatActivity {
             return;
         }
         Toast.makeText(getBaseContext(), "Product added successfully!", Toast.LENGTH_SHORT).show();
+        new Data().refresh();
     }
 }

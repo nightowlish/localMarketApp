@@ -1,19 +1,33 @@
 package local.market.app.data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Data {
+public class Data implements Response {
+    private static Server server = new Server();
+    private String result = null;
     private static String email;
     private static String phone;
     private static String address;
-    private static ArrayList<Product> products;
+    private static ArrayList<Product> products = new ArrayList<Product>();
     public static Data instance;
 
     public Data(String email) {
         this.email = email;
         init();
     }
+
+    public Data() {}
 
     public static String getEmail() {
         return email;
@@ -55,10 +69,45 @@ public class Data {
     }
 
     public void init() {
-        // query server email and init info based on response
+        refresh();
     }
 
-    public static void refresh() {
-        // query server email for data refresh after adding product
+    public void refresh() {
+        server.delegate = this;
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("command", "getProducts");
+            server.execute(postData.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        while (result == null) {}
+
+        try {
+            JSONObject json = new JSONObject(result);
+            JSONArray productList = json.getJSONArray("products");
+            for (int i = 0; i < productList.length(); i++) {
+                String name = productList.getJSONObject(i).getString("name");
+                double price = productList.getJSONObject(i).getDouble("price");
+                String email = productList.getJSONObject(i).getString("ownerPhone");
+                String phone = productList.getJSONObject(i).getString("ownerPhone");
+                int category = productList.getJSONObject(i).getInt("category");
+                String sImage = productList.getJSONObject(i).getString("image");
+                byte[] decodedString = Base64.decode(sImage, Base64.NO_WRAP);
+                InputStream inputStream  = new ByteArrayInputStream(decodedString);
+                Bitmap image  = BitmapFactory.decodeStream(inputStream);
+                products.add(new Product(name, price, image, category, email, phone));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            result = null;
+            return;
+        }
+        result = null;
+    }
+
+    @Override
+    public void processFinish(String result){
+        this.result = result;
     }
 }

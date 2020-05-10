@@ -8,13 +8,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import local.market.app.R;
 
-public class OwnProductAdapter extends ArrayAdapter<Product> {
+public class OwnProductAdapter extends ArrayAdapter<Product> implements Response {
     Product currentProduct;
+    Server server = new Server();
+    String result = null;
     Button delete;
     TextView name, price;
     ImageView image;
@@ -46,6 +52,29 @@ public class OwnProductAdapter extends ArrayAdapter<Product> {
         return convertView;
     }
     public void deleteProduct() {
-
+        server.delegate = this;
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("command", "deleteProduct");
+            postData.put("email", Data.getEmail());
+            postData.put("productName", currentProduct.getName());
+            new Server().execute(postData.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        while (result == null) {}
+        if (result != "SUCCESS") {
+            result = null;
+            return;
+        }
+        result = null;
+        new Data().refresh();
+        this.notifyDataSetChanged();
     }
+
+    @Override
+    public void processFinish(String result){
+        this.result = result;
+    }
+
 }
