@@ -7,7 +7,7 @@ public class Data {
     private static String email;
     private static String phone;
     private static String address;
-    private static List<Product> products;
+    private static ArrayList<Product> products;
     public static Data instance;
 
     public Data(String email) {
@@ -27,8 +27,8 @@ public class Data {
         return address;
     }
 
-    public static List<Product> getOwnedProducts() {
-        List<Product> ownedProducts = new ArrayList<Product>();
+    public static ArrayList<Product> getOwnedProducts() {
+        ArrayList<Product> ownedProducts = new ArrayList<Product>();
         for (Product prod: products) {
             if (prod.getOwnerEmail() == email)
                 ownedProducts.add(prod);
@@ -36,8 +36,8 @@ public class Data {
         return ownedProducts;
     }
 
-    public static List<Product> getCategoryProducts(int category) {
-        List<Product> categoryProducts = new ArrayList<Product>();
+    public static ArrayList<Product> getCategoryProducts(int category) {
+        ArrayList<Product> categoryProducts = new ArrayList<Product>();
         for (Product prod: products) {
             if (prod.getCategory() == category)
                 categoryProducts.add(prod);
@@ -45,9 +45,20 @@ public class Data {
         return categoryProducts;
     }
 
-    public static List<Product> getAllProducts() { return products; }
+    public static ArrayList<Product> getCartProducts() {
+        ArrayList<Product> cartProducts = new ArrayList<Product>();
+        for (Product prod: products) {
+            if (prod.getAmount() != 0)
+                cartProducts.add(prod);
+        }
+        return cartProducts;
+    }
 
     public void init() {
         // query server email and init info based on response
+    }
+
+    public static void refresh() {
+        // query server email for data refresh after adding product
     }
 }

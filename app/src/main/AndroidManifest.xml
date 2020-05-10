@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".data.AddProductActivity"></activity>
-        <activity android:name=".data.OrderActivity" />
         <activity android:name=".data.ShoppingCartActivity" />
         <activity android:name=".data.CategoryActivity" />
         <activity android:name=".data.SignupActivity" />
