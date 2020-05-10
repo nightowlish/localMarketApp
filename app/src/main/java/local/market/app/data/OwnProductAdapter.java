@@ -58,7 +58,10 @@ public class OwnProductAdapter extends ArrayAdapter<Product> implements Response
             postData.put("command", "deleteProduct");
             postData.put("email", Data.getEmail());
             postData.put("productName", currentProduct.getName());
-            new Server().execute(postData.toString());
+            if (Data.DEBUG == false)
+                new Server().execute(postData.toString());
+            else
+                return;
         } catch (JSONException e) {
             e.printStackTrace();
         }

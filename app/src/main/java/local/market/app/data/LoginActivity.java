@@ -78,7 +78,10 @@ public class LoginActivity extends AppCompatActivity implements Response {
             postData.put("command", "checkLogin");
             postData.put("email", email);
             postData.put("password", password);
-            server.execute(postData.toString());
+            if (Data.DEBUG == false)
+                server.execute(postData.toString());
+            else
+                return true;
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -70,7 +70,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
         for (Product prod: Data.getCartProducts()) {
             String message = "User with phone number " + Data.getPhone() + " ordered " + String.valueOf(prod.getAmount()) + " of your product named " + prod.getName() + ". ";
             message += "Please send order to address " + Data.getAddress();
-            smsManager.sendTextMessage(prod.getOwnerPhone(), null, message, null, null);
+            if (Data.DEBUG == false)
+                smsManager.sendTextMessage(prod.getOwnerPhone(), null, message, null, null);
         }
     }
 }

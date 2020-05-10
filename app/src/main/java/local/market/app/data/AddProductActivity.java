@@ -96,7 +96,8 @@ public class AddProductActivity extends AppCompatActivity {
             postData.put("prodPrice", price);
             postData.put("prodCategory", category);
             postData.put("prodImage", encodedImage);
-            new Server().execute(postData.toString());
+            if (Data.DEBUG == false)
+                new Server().execute(postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getBaseContext(), "Adding product failed!", Toast.LENGTH_SHORT).show();

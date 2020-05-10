@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Data implements Response {
+
+    public static Boolean DEBUG = true;
     private static Server server = new Server();
     private String result = null;
     private static String email;
@@ -77,7 +79,10 @@ public class Data implements Response {
         JSONObject postData = new JSONObject();
         try {
             postData.put("command", "getProducts");
-            server.execute(postData.toString());
+            if (Data.DEBUG == false)
+                server.execute(postData.toString());
+            else
+                setTestProducts();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -104,6 +109,10 @@ public class Data implements Response {
             return;
         }
         result = null;
+    }
+
+    private void setTestProducts() {
+        result = "\"products\":[]";
     }
 
     @Override
