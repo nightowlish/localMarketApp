@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -74,6 +76,10 @@ public class AddProductActivity extends AppCompatActivity {
     private void add() {
         String name = etName.getText().toString();
         String sPrice = etPrice.getText().toString();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] imageByteArray = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
 
         int category = c1.isChecked() ? 1 : c2.isChecked() ? 2 : c3.isChecked() ? 3 : c4.isChecked() ? 4 : c5.isChecked() ? 5 : 0;
         if (name.isEmpty() || sPrice.isEmpty() || category == 0 || image == null) {
@@ -85,10 +91,11 @@ public class AddProductActivity extends AppCompatActivity {
         try {
             postData.put("command", "addProduct");
             postData.put("email", Data.getEmail());
+            postData.put("phone", Data.getPhone());
             postData.put("prodName", name);
             postData.put("prodPrice", price);
             postData.put("prodCategory", category);
-            postData.put("prodImage", image);
+            postData.put("prodImage", encodedImage);
             new Server().execute(postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();

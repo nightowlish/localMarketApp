@@ -64,7 +64,7 @@ public class SignupActivity extends AppCompatActivity implements Response {
             postData.put("command", "checkSignup");
             postData.put("email", email);
             postData.put("address", address);
-            postData.put("phoneNumber", phoneNumber);
+            postData.put("phone", phoneNumber);
             server.execute(postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
