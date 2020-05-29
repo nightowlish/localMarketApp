@@ -21,10 +21,12 @@ public class SignupActivity extends AppCompatActivity implements Response {
     EditText email;
     EditText address;
     EditText phoneNumber;
+    EditText location;
     String p;
     String e;
     String a;
     String pn;
+    String l;
     Button buttonUp;
 
     @Override
@@ -36,6 +38,7 @@ public class SignupActivity extends AppCompatActivity implements Response {
         phoneNumber = (EditText) findViewById(R.id.editText4);
         address = (EditText) findViewById(R.id.editText5);
         buttonUp = (Button) findViewById(R.id.button4);
+        location = (EditText) findViewById(R.id.editText9);
 
         buttonUp.setOnClickListener(new View.OnClickListener() {
 
@@ -50,11 +53,12 @@ public class SignupActivity extends AppCompatActivity implements Response {
         e = email.getText().toString();
         a = address.getText().toString();
         pn = phoneNumber.getText().toString();
-        if (p.isEmpty() || e.isEmpty() || a.isEmpty() || pn.isEmpty()) {
+        l = location.getText().toString();
+        if (p.isEmpty() || e.isEmpty() || a.isEmpty() || pn.isEmpty() || l.isEmpty()) {
             Toast.makeText(getBaseContext(), "Please fill in all data before submitting!" , Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!checkSignupData(e, p, a, pn)) {
+        if (!checkSignupData(e, p, a, pn, l)) {
             Toast.makeText(getBaseContext(), "Invalid data!" , Toast.LENGTH_SHORT).show();
             return;
         }
@@ -63,7 +67,7 @@ public class SignupActivity extends AppCompatActivity implements Response {
         SignupActivity.this.startActivity(myIntent);
     }
 
-    private Boolean checkSignupData(String email, String password, String address, String phoneNumber) {
+    private Boolean checkSignupData(String email, String password, String address, String phoneNumber, String location) {
         server.delegate = this;
         JSONObject postData = new JSONObject();
         try {
@@ -71,6 +75,7 @@ public class SignupActivity extends AppCompatActivity implements Response {
             postData.put("email", email);
             postData.put("address", address);
             postData.put("phone", phoneNumber);
+            postData.put("location", location);
             if (Data.DEBUG == false)
                 server.execute(postData.toString());
             else
