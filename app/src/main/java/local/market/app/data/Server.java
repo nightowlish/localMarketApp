@@ -13,8 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Server extends AsyncTask<String, String, String> {
-    private String server = "127.0.0.1";
-    private String serverBackup = "127.0.0.1";
+    private String server = "http://127.0.0.1:8081";
     public Response delegate = null;
 
     public Server() {}
@@ -46,9 +45,6 @@ public class Server extends AsyncTask<String, String, String> {
 
         } catch (Exception e) {
             e.printStackTrace();
-            String temp = this.server;
-            this.server = this.serverBackup;
-            this.serverBackup = temp;
         }
         return output;
     }
